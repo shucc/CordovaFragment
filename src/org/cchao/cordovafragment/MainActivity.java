@@ -20,18 +20,16 @@
 package org.cchao.cordovafragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
-
-import org.apache.cordova.*;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
-    private TestFragment mTestFragment;
+    private Fragment1 mFragment1;
+    private Fragment2 mFragment2;
+    private Fragment3 mFragment3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,11 +42,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     private void setDefaultFragment() {
-        TempData.temp.replace(0, TempData.temp.length(), "Fragment1");
-        mTestFragment = new TestFragment();
+        mFragment1 = new Fragment1();
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.framelayout, mTestFragment);
+        mFragmentTransaction.replace(R.id.framelayout, mFragment1);
         mFragmentTransaction.commit();
     }
 
@@ -56,27 +53,24 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.text1:
-                TempData.temp.replace(0, TempData.temp.length(), "Fragment1");
-                mTestFragment = new TestFragment();
+                mFragment1 = new Fragment1();
                 FragmentManager mFragmentManager = getFragmentManager();
                 FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                mFragmentTransaction.replace(R.id.framelayout, mTestFragment);
+                mFragmentTransaction.replace(R.id.framelayout, mFragment1);
                 mFragmentTransaction.commit();
                 break;
             case R.id.text2:
-                TempData.temp.replace(0, TempData.temp.length(), "Fragment2");
-                mTestFragment = new TestFragment();
+                mFragment2 = new Fragment2();
                 FragmentManager m2FragmentManager = getFragmentManager();
                 FragmentTransaction m2FragmentTransaction = m2FragmentManager.beginTransaction();
-                m2FragmentTransaction.replace(R.id.framelayout, mTestFragment);
+                m2FragmentTransaction.replace(R.id.framelayout, mFragment2);
                 m2FragmentTransaction.commit();
                 break;
             case R.id.text3:
-                TempData.temp.replace(0, TempData.temp.length(), "Fragment3");
-                CordovaTestFragment cordovaTestFragment = new CordovaTestFragment();
+                mFragment3 = new Fragment3();
                 FragmentManager m3FragmentManager = getFragmentManager();
                 FragmentTransaction m3FragmentTransaction = m3FragmentManager.beginTransaction();
-                m3FragmentTransaction.replace(R.id.framelayout, cordovaTestFragment);
+                m3FragmentTransaction.replace(R.id.framelayout, mFragment3);
                 m3FragmentTransaction.commit();
                 break;
             default:

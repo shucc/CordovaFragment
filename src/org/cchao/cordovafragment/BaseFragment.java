@@ -19,11 +19,10 @@ import java.util.ArrayList;
 /**
  * Created by chenchao on 15/12/2.
  */
-public class CordovaTestFragment extends Fragment{
+public abstract class BaseFragment extends Fragment{
 
     private CordovaWebView webView;
 
-    // Read from config.xml:
     protected CordovaPreferences preferences;
     protected String launchUrl;
     protected ArrayList<PluginEntry> pluginEntries;
@@ -34,15 +33,13 @@ public class CordovaTestFragment extends Fragment{
         parser.parse(getActivity());
         preferences = parser.getPreferences();
         preferences.setPreferencesBundle(getActivity().getIntent().getExtras());
-        //preferences.copyIntoIntentExtras(getActivity());
         launchUrl = parser.getLaunchUrl();
         pluginEntries = parser.getPluginEntries();
-        // Config.parser = parser;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_main_fragment_cordova, container, false);
+        View rootView = inflater.inflate(R.layout.activity_main_fragment_cordova, container, false);
         cordovaInterface =  new CordovaInterfaceImpl(getActivity());
         if(savedInstanceState != null)
             cordovaInterface.restoreInstanceState(savedInstanceState);
@@ -51,22 +48,19 @@ public class CordovaTestFragment extends Fragment{
 
         webView = new CordovaWebViewImpl(CordovaWebViewImpl.createEngine(getActivity(), preferences));
 
-        //webView.getView().setId(100);
         RelativeLayout.LayoutParams wvlp = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
-        //wvlp.addRule(RelativeLayout.BELOW,R.id.DialogTopBar);
         webView.getView().setLayoutParams(wvlp);
 
         if (!webView.isInitialized()) {
             webView.init(cordovaInterface, pluginEntries, preferences);
         }
         cordovaInterface.onCordovaInit(webView.getPluginManager());
-        // webView = (SystemWebView)v.findViewById(R.id.myWebView);
-
-        // Config.init(getActivity());
-        ((RelativeLayout)v).addView(webView.getView());
-        webView.loadUrl("file:///android_asset/www/cordovatest.html");
-        return v;
+        ((RelativeLayout)rootView).addView(webView.getView());
+        webView.loadUrl(getHtmlUri());
+        return rootView;
     }
+
+    abstract protected String getHtmlUri();
 }
