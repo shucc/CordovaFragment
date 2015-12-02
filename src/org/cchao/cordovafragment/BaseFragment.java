@@ -62,5 +62,11 @@ public abstract class BaseFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onDestroy() {
+        webView.handleDestroy();
+        super.onDestroy();
+    }
+
     abstract protected String getHtmlUri();
 }
